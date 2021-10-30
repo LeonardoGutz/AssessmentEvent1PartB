@@ -8,6 +8,32 @@ INSERT INTO users VALUES (NULL,'DiegoAlcocer','123abc','dalcocer@esn.edu.mx');
 INSERT INTO users VALUES (NULL,'SantiagoAllande','123abd','sallande@esn.edu.mx');
 INSERT INTO users VALUES (NULL,'EmilioAquino','123abe','eaquino@esn.edu.mx');
 
+npm init -y
+npm install sqlite3
+
+Creamos la consulta 1
+
+const sqlite3 = require('sqlite3').verbose();
+
+// open the database
+let AlumnosESN = new sqlite3.Database('AlumnosESN.db');
+
+let sql = `SELECT * FROM user`;
+
+AlumnosESN.all(sql, [], (err, rows) => {
+  if (err) {
+    throw err;
+  }
+  rows.forEach((row) => {
+    console.log(row.ID,row.User,row.Password,row.Email);
+  });
+});
+
+// close the database connection
+AlumnosESN.close();
+
+en la terminal ejecutamos la consulta mediante el codigo 
+
 
 CREATE TABLE users(ID INTEGER PRIMARY KEY AUTOINCREMENT,nombre TEXT NOT NULL,correo TEXT NOT NULL);
 
