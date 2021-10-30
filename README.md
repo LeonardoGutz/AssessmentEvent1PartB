@@ -11,7 +11,48 @@ INSERT INTO users VALUES (NULL,'EmilioAquino','123abe','eaquino@esn.edu.mx');
 npm init -y
 npm install sqlite3
 
-Creamos la consulta 1
+Creamos Main.js
+
+const sqlite3 = require('sqlite3').verbose();
+let db = new sqlite3.Database('Nodelogin', (err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log('Congratulations you have connected with the database Nodelogin');
+  });
+
+  db.close((err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log('Close the connections to the Nodelogin database');
+  });
+  
+  en la terminal ejecutamos la consulta mediante el codigo node Main.js
+
+Creamos CodeConnection.js
+
+const sqlite3 = require('sqlite3').verbose();
+
+// open database in memory
+let Nodelogin = new sqlite3.Database(':memory:', (err) => {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log('Connecting to the database create using SQLite');
+});
+
+// close the database connection
+Nodelogin.close((err) => {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log('Closing Nodelogin connection.');
+});
+
+en la terminal ejecutamos la consulta mediante el codigo node CodeConnection.js
+
+Creamos la consulta CodeQueryALL.js
 
 const sqlite3 = require('sqlite3').verbose();
 
@@ -32,32 +73,33 @@ AlumnosESN.all(sql, [], (err, rows) => {
 // close the database connection
 AlumnosESN.close();
 
-en la terminal ejecutamos la consulta mediante el codigo 
+en la terminal ejecutamos la consulta mediante el codigo CodeQueryALL.js
+
+Creamos la consulta CodeQueryGET.js
+
+const sqlite3 = require('sqlite3').verbose();
+
+// open the database
+let Nodelogin = new sqlite3.Database('Nodelogin.db');
+
+let sql = `SELECT ID,user FROM user WHERE ID = ?`;
+let ID =3;
+
+Nodelogin.get(sql, [ID], (err, row) => {
+  if (err) {
+    return console.error(err.message);
+  }
+  return row
+   ? console.log(row.ID,row.User)
+    : console.log('The user with $ {ID} cannot be found');
+});
+
+// close the database connection
+Nodelogin.close();
+
+en la terminal ejecutamos la consulta mediante el codigo CodeQueryGET.js
 
 
-CREATE TABLE users(ID INTEGER PRIMARY KEY AUTOINCREMENT,nombre TEXT NOT NULL,correo TEXT NOT NULL);
-
-CREATE TABLE pacientes(cedula TEXT PRIMARY KEY,nombre TEXT NOT NULL,correo TEXT NOT NULL);
-
-
-CREATE TABLE citas(num INTEGER PRIMARY KEY AUTOINCREMENT, medico TEXT NOT NULL, paciente TEXT NOT NULL, precio INT NOT NULL,
-FOREIGN KEY (medico) REFERENCES medicos (cedula),FOREIGN KEY (paciente) REFERENCES pacientes (cedula));
-
-
-INSERT INTO medicos VALUES ('123456','Alfredo Aboumrad','5510111213');
-INSERT INTO medicos VALUES ('123457','Diego Aguilar','5510111214');
-INSERT INTO medicos VALUES ('123458','Kayla Alcalde','5510111215');
-INSERT INTO pacientes VALUES ('123471','Sofia Ugarte','sofiau@mail.com');
-INSERT INTO pacientes VALUES ('123472','Miranda Uribe','mirandau@mail.com');
 
 
 
-INSERT INTO citas VALUES (NULL,'123456','123471',1700);
-INSERT INTO citas VALUES (NULL,'123457','123472',2200);
-INSERT INTO citas VALUES (NULL,'123456','123472',2300);
-
-
-SELECT citas.num,citas.medico,medicos.nombre,medicos.telefono,citas.paciente,pacientes.nombre,pacientes.correo,citas.precio
-FROM citas,medicos,pacientes
-WHERE citas.medico=medicos.cedula
-AND citas.paciente=pacientes.cedula;
