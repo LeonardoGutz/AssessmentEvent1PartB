@@ -3,10 +3,10 @@ Revisar la version de Node instalada en tu equipo cmd / node -v
 
 Crear la Base de datos Nodelogin.db
 
-CREATE TABLE users (ID	INTEGER NOT NULL UNIQUE,User TEXT NOT NULL,Password TEXT NOT NULL,Email	TEXT,PRIMARY KEY("ID" AUTOINCREMENT));
-INSERT INTO users VALUES (NULL,'DiegoAlcocer','123abc','dalcocer@esn.edu.mx');
-INSERT INTO users VALUES (NULL,'SantiagoAllande','123abd','sallande@esn.edu.mx');
-INSERT INTO users VALUES (NULL,'EmilioAquino','123abe','eaquino@esn.edu.mx');
+CREATE TABLE user (ID	INTEGER NOT NULL UNIQUE,User TEXT NOT NULL,Password TEXT NOT NULL,Email	TEXT,PRIMARY KEY("ID" AUTOINCREMENT));
+INSERT INTO user VALUES (NULL,'DiegoAlcocer','123abc','dalcocer@esn.edu.mx');
+INSERT INTO user VALUES (NULL,'SantiagoAllande','123abd','sallande@esn.edu.mx');
+INSERT INTO user VALUES (NULL,'EmilioAquino','123abe','eaquino@esn.edu.mx');
 
 npm init -y
 npm install sqlite3
@@ -57,11 +57,11 @@ Creamos la consulta CodeQueryALL.js
 const sqlite3 = require('sqlite3').verbose();
 
 // open the database
-let AlumnosESN = new sqlite3.Database('AlumnosESN.db');
+let Nodelogin = new sqlite3.Database('Nodelogin.db');
 
 let sql = `SELECT * FROM user`;
 
-AlumnosESN.all(sql, [], (err, rows) => {
+Nodelogin.all(sql, [], (err, rows) => {
   if (err) {
     throw err;
   }
@@ -71,7 +71,7 @@ AlumnosESN.all(sql, [], (err, rows) => {
 });
 
 // close the database connection
-AlumnosESN.close();
+Nodelogin.close();
 
 en la terminal ejecutamos la consulta mediante el codigo CodeQueryALL.js
 
